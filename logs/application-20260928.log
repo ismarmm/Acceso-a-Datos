@@ -1,0 +1,2 @@
+2026-09-28 09:45:27.459 [main] INFO  org.example.Main - El logger funciona correctamente.
+2026-09-28 09:45:27.464 [main] ERROR org.example.Main - Ejemplo de mensaje de error.
