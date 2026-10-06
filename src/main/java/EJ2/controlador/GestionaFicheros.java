@@ -7,8 +7,12 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class GestionaFicheros {
+    public static void main(String[] args) {
+        GestionaFicheros gestor = new GestionaFicheros();
+        gestor.ejecutar();
+    }
 
-    public static void mostrarInformacion(String ruta) throws RutaNoValidaException, IOException {
+    public void mostrarInformacion(String ruta) throws RutaNoValidaException, IOException {
         File fichero = new File(ruta);
 
         if (!fichero.exists()) {
@@ -46,7 +50,7 @@ public class GestionaFicheros {
         System.out.println("Última modificación: " + fecha);
     }
 
-    public static void main(String[] args) {
+    public void ejecutar() {
         Scanner teclado = new Scanner(System.in);
         System.out.print("Introduce una ruta: ");
         String ruta = teclado.nextLine();
