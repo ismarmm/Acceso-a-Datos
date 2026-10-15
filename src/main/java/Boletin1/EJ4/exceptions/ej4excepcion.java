@@ -1,4 +1,4 @@
-package EJ4.exceptions;
+package Boletin1.EJ4.exceptions;
 public class ej4excepcion extends RuntimeException {
     public ej4excepcion(String message) {
         super(message);

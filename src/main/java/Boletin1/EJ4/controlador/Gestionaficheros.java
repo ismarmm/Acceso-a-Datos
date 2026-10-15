@@ -1,4 +1,4 @@
-package EJ4.controlador;
+package Boletin1.EJ4.controlador;
 
 import java.io.File;
 import java.util.Scanner;

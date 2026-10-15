@@ -1,7 +1,6 @@
-package Ficheros;
+package Boletin1.Ficheros;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;

@@ -1,6 +1,6 @@
-package EJ2.controlador;
+package Boletin1.EJ2.controlador;
 
-import EJ2.exceptions.*;
+import Boletin1.EJ2.exceptions.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
