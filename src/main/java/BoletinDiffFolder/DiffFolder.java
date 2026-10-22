@@ -96,7 +96,8 @@ public class DiffFolder {
 
         try {
             valor = compararFechas(fichero1, fichero2);
-        } catch (DiffFolderException e) {
+        }
+        catch (DiffFolderException e) {
             logger.error(e.getMessage());
 
             if (!fichero1.isFile()) {
