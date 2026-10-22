@@ -84,6 +84,10 @@ public class RepositorioPersonasTxT implements IRepositorioPersonas {
         return existe;
     }
 
+    @Override
+    public int count() {
+        return personas.size();
+    }
 
 
 }
