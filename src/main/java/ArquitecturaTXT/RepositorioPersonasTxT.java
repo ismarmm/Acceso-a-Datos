@@ -89,5 +89,19 @@ public class RepositorioPersonasTxT implements IRepositorioPersonas {
         return personas.size();
     }
 
+    @Override
+    public void save(Persona persona) {
+        findAll();
+        if (!existById(persona.getNombre())) {
+            personas.add(persona);
+        } else {
+            for (int i = 0; i < personas.size(); i++) {
+                if (personas.get(i).getNombre().equals(persona.getNombre())) {
+                    personas.set(i, persona);
+                }
+            }
+        }
+    }
+
 
 }
