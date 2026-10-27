@@ -76,11 +76,9 @@ public class RepositorioPersonasTxT implements IRepositorioPersonas {
     @Override
     public boolean existById(String Nombre) {
         boolean existe = false;
-
         if (findById(Nombre) != null) {
             existe = true;
         }
-
         return existe;
     }
 

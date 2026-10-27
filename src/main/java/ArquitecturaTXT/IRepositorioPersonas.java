@@ -7,4 +7,5 @@ public interface IRepositorioPersonas {
     Persona findById(String Nombre);
     boolean existById(String Nombre);
     int count();
+    void save(Persona persona);
 }

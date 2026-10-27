@@ -29,6 +29,7 @@ public class Gestiona {
     public List<Persona> leerPersonas(String ruta) throws FileNotFoundException {
         List<Persona> personas = new ArrayList<>();
         Scanner entrada = null;
+        List<String> nss = new ArrayList();
 
         try {
             FileReader fichero = new FileReader(ruta);
@@ -67,4 +68,28 @@ public class Gestiona {
             }
         }
     }
+    public List<String>separador(String ruta, String comprobacion, String resultado ) throws FileNotFoundException {
+
+        Scanner in = null;
+        List<String> nss = new ArrayList();
+        int contador = 0;
+        try {
+            FileReader fichero = new FileReader(ruta);
+            in = new Scanner (fichero);
+            while (in.hasNextLine()) {
+                String separacion = in.nextLine().substring(0,2);{
+                    if(separacion == "AN");
+
+
+
+                }
+
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return nss;
+    }
+}
 }
