@@ -2,6 +2,7 @@ package ArquitecturaTXT;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -12,11 +13,11 @@ import org.apache.logging.log4j.Logger;
 
 public class RepositorioPersonasTxT implements IRepositorioPersonas {
     private static final Logger logger = LogManager.getLogger(RepositorioPersonasTxT.class);
+    private String ruta;
     private List<Persona> personas = new ArrayList<>();
 
-    public static void main(String[] args) {
-        RepositorioPersonasTxT gestion = new RepositorioPersonasTxT();
-        List<Persona> personas = gestion.findAll();
+    public RepositorioPersonasTxT(String ruta) {
+        this.ruta = ruta;
     }
 
     public List<Persona> leerPersonas(String ruta) throws FileNotFoundException {
@@ -36,7 +37,8 @@ public class RepositorioPersonasTxT implements IRepositorioPersonas {
                     notas.add(nota);
                 }
 
-                Persona persona = new Persona(2.3, 8.6, nombre, notas);
+                // La nota maxima y minima se calculan a partir de las notas
+                Persona persona = new Persona(nombre, notas);
                 personas.add(persona);
             }
         }
@@ -49,20 +51,56 @@ public class RepositorioPersonasTxT implements IRepositorioPersonas {
         return personas;
     }
 
+    // Escribe todas las personas en el fichero: nombre nota1 nota2 ...
+    private void escribeFichero() throws RepositorioException {
+        PrintWriter salida = null;
+
+        try {
+            salida = new PrintWriter(ruta);
+            for (int i = 0; i < personas.size(); i++) {
+                String linea = personas.get(i).getNombre();
+                List<Double> notas = personas.get(i).getNotas();
+                for (int j = 0; j < notas.size(); j++) {
+                    linea = linea + " " + notas.get(j);
+                }
+                salida.println(linea);
+            }
+        } catch (FileNotFoundException e) {
+            logger.error(e.getMessage());
+            throw new RepositorioException("No se puede escribir en " + ruta, e);
+        } finally {
+            if (salida != null) {
+                salida.close();
+            }
+        }
+    }
+
+    // Devuelve la posicion de la persona en la lista, o -1 si no esta
+    private int buscarPosicion(String Nombre) {
+        int posicion = -1;
+        for (int i = 0; i < personas.size(); i++) {
+            if (personas.get(i).getNombre().equals(Nombre)) {
+                posicion = i;
+            }
+        }
+        return posicion;
+    }
+
     @Override
-    public List<Persona> findAll() {
-        if (personas == null && personas.isEmpty()) {
+    public List<Persona> findAll() throws RepositorioException {
+        if (personas.isEmpty()) {
             try {
-                leerPersonas("src/main/resources/fichero3.txt");
+                leerPersonas(ruta);
             } catch (FileNotFoundException e) {
                 logger.error(e.getMessage());
+                throw new RepositorioException("No se encuentra el fichero " + ruta, e);
             }
         }
         return personas;
     }
 
     @Override
-    public Persona findById(String Nombre) {
+    public Persona findById(String Nombre) throws RepositorioException {
         List<Persona> personas = findAll();
         Persona encontrada = null;
         for (int i = 0; i < personas.size(); i++) {
@@ -74,7 +112,7 @@ public class RepositorioPersonasTxT implements IRepositorioPersonas {
     }
 
     @Override
-    public boolean existById(String Nombre) {
+    public boolean existById(String Nombre) throws RepositorioException {
         boolean existe = false;
         if (findById(Nombre) != null) {
             existe = true;
@@ -83,12 +121,13 @@ public class RepositorioPersonasTxT implements IRepositorioPersonas {
     }
 
     @Override
-    public int count() {
+    public int count() throws RepositorioException {
+        findAll();
         return personas.size();
     }
 
     @Override
-    public void save(Persona persona) {
+    public void save(Persona persona) throws RepositorioException {
         findAll();
         if (!existById(persona.getNombre())) {
             personas.add(persona);
@@ -99,6 +138,20 @@ public class RepositorioPersonasTxT implements IRepositorioPersonas {
                 }
             }
         }
+        escribeFichero();
+    }
+
+    @Override
+    public boolean deleteById(String Nombre) throws RepositorioException {
+        findAll();
+        boolean borrada = false;
+        int posicion = buscarPosicion(Nombre);
+        if (posicion != -1) {
+            personas.remove(posicion);
+            escribeFichero();
+            borrada = true;
+        }
+        return borrada;
     }
 
 
